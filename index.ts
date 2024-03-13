@@ -3,6 +3,7 @@ import { PublicKey, Transaction, TransactionInstruction } from "@solana/web3.js"
 import idl from "./idl/token_faucet.json";
 import { createHash } from "crypto";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
+import { token } from "@coral-xyz/anchor/dist/cjs/utils";
 
 const TOKEN_METADATA_PROGRAM_ID = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
 
@@ -121,9 +122,38 @@ export async function build_mint_token_tx(
             mintRecord: mintRecordPDA,
             associatedTokenAccount: target_token_ATA
         }).instruction();
-    
+
     instructions.push(token_mint);
 
     return instructions
+}
 
+export async function build_edit_config_tx(
+    token_symbol: string,
+    authority: PublicKey,
+    new_authority: PublicKey,
+    new_max_amount: number,
+    new_refresh_interval: number,
+    program_id: PublicKey,
+    provider: AnchorProvider,
+) {
+    const a = JSON.stringify(idl)
+    const token_faucet_idl = JSON.parse(a)
+    const program = new Program(token_faucet_idl, program_id, provider)
+
+    const [tokenLimiterPDA] = PublicKey.findProgramAddressSync(
+        [
+            Buffer.from("limit"),
+            Buffer.from(token_symbol)
+        ],
+        program.programId
+    );
+
+    const instructions = await program.methods.editConfig("mockSOL", new_authority, new_max_amount, new_refresh_interval)
+        .accounts({
+            admin: authority,
+            tokenLimiter: tokenLimiterPDA,
+        }).instruction();
+
+    return instructions;
 }
