@@ -1,4 +1,4 @@
-import { AnchorProvider, Program } from "@coral-xyz/anchor";
+import { AnchorProvider, BN, Program } from "@coral-xyz/anchor";
 import { PublicKey, Transaction, TransactionInstruction } from "@solana/web3.js";
 import idl from "./idl/token_faucet.json";
 import { createHash } from "crypto";
@@ -13,8 +13,8 @@ export async function build_initialize_token_tx(
     token_decimals: number,
     token_name: string,
     token_uri: string,
-    token_limit: number,
-    refresh_interval: number,
+    token_limit: BN,
+    refresh_interval: BN,
     program_id: PublicKey,
     provider: AnchorProvider
 ) {
@@ -67,7 +67,7 @@ export async function build_initialize_token_tx(
 export async function build_mint_token_tx(
     user: PublicKey,
     token_symbol: String,
-    amount: number,
+    amount: BN,
     program_id: PublicKey,
     provider: AnchorProvider
 ) {
