@@ -1,9 +1,8 @@
 import { AnchorProvider, BN, Program } from "@coral-xyz/anchor";
-import { PublicKey, Transaction, TransactionInstruction } from "@solana/web3.js";
+import { PublicKey, TransactionInstruction } from "@solana/web3.js";
 import idl from "./idl/token_faucet.json";
 import { createHash } from "crypto";
 import { getAssociatedTokenAddressSync } from "@solana/spl-token";
-import { token } from "@coral-xyz/anchor/dist/cjs/utils";
 
 const TOKEN_METADATA_PROGRAM_ID = new PublicKey("metaqbxxUerdq28cj1RbAWkYQm3ybzjb6a8bt518x1s");
 
