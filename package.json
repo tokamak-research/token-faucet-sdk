@@ -22,7 +22,7 @@
     "typescript": "*"
   },
   "dependencies": {
-    "@coral-xyz/anchor": "^0.29.0",
+    "@coral-xyz/anchor": "^0.27.0",
     "@solana/spl-token": "^0.4.1",
     "@solana/web3.js": "^1.91.0",
     "crypto": "^1.0.1"
